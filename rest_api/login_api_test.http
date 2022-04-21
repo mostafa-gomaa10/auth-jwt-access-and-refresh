@@ -1,3 +1,4 @@
+
 POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
@@ -31,4 +32,22 @@ Content-Type: application/json
 {
     "email":"mywrong@valid.com",
     "password":"fewjkjwe@fefcocsm"
+}
+
+###
+POST http://localhost:5000/api/auth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjVkYjdiYTczYWI1NTZjYTFmNDIzM2EiLCJpYXQiOjE2NTA1NjQ4NTcsImV4cCI6MTY4MjEyMjQ1NywiYXVkIjoiNjI1ZGI3YmE3M2FiNTU2Y2ExZjQyMzNhIiwiaXNzIjoibXlhcHAuY29tIn0.QUed6XBKiolI3ejFPgearOTzkQbYvNk9xzl9o_w8tGs"
+}
+
+###
+
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"myvalxxid@valid.com",
+    "password":"123456"
 }

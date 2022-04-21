@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
 
 const refreshTokenSchema = new mongoose.Schema({
-    identifier: {
+    user: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    },
+    token: {
         type: String,
         required: true,
     },

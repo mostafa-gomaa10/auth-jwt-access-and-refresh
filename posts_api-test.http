@@ -1,6 +1,0 @@
-GET http://localhost:5000/posts
-Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNWRiN2JhNzNhYjU1NmNhMWY0MjMzYSIsImlhdCI6MTY1MDM3ODEyM30.cJTzQjvO2tfHJMpdADfiyGZL4q69issmce2q-SFtpdo
-
-###
-
-GET http://localhost:5000/posgggts

@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 
 mongoose
     .connect(process.env.MONGO_URI, {
-        // .connect("mongodb://localhost:27017", {
         dbName: process.env.DB_NAME,
         useNewUrlParser: true,
         useUnifiedTopology: true,

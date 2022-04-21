@@ -1,20 +1,9 @@
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+const JWT = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { registerValidation, loginValidation } = require('../validation');
-
-
-
-// helper functions
-// time in seconds
-const maxLifeToken = 2 * 24 * 60 * 60
-
-const generateAccessToken = (id) => {
-    return jwt.sign({ id }, process.env.SECRET_TOKEN, { expiresIn: '20s' });
-}
-const generateRefreshToken = (id) => {
-    return jwt.sign({ id }, process.env.SECRET_REFRESH_TOKEN, { expiresIn: '2m' });
-}
+const { signAccessToken, signRefreshToken, verifyRefreshToken } = require('../config/jwt_helper');
+const createError = require('http-errors');
 
 
 const regsiterPost = async (req, res) => {
@@ -24,17 +13,19 @@ const regsiterPost = async (req, res) => {
         return res.status(400).json({ error: validation.error.details[0].message })
     }
 
-    const emailExist = await User.findOne({ email: req.body.email });
+    const { email, password } = validation.value
+    const emailExist = await User.findOne({ email: email });
+
     if (emailExist) {
         return res.status(400).json({ error: 'Email Already Registered' })
     }
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = new User({
         name: req.body.name,
-        email: req.body.email,
+        email: email,
         password: hashedPassword,
     })
 
@@ -58,45 +49,67 @@ const regsiterPost = async (req, res) => {
 }
 
 
-const loginPost = async (req, res) => {
-    const validation = loginValidation(req.body);
+const loginPost = async (req, res, next) => {
+    try {
 
-    if (validation.error) {
-        return res.status(400).json({ error: validation.error.details[0].message })
+        const validation = loginValidation(req.body);
+
+        if (validation.error) {
+            return res.status(400).json({ error: validation.error.details[0].message })
+        }
+
+        const { email, password } = validation.value
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            throw createError.NotFound('User not registered')
+        }
+
+        const validPassword = await bcrypt.compare(password, user.password)
+        if (!validPassword) {
+            throw createError.Unauthorized('Username/password not valid')
+        }
+
+        const accessToken = await signAccessToken(user.id);
+        const refreshToken = await signRefreshToken(user.id);
+
+        res.send({
+            success: 'login success',
+            user: { id: user.id, name: user.name, email: user.email },
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+        })
+
+    } catch (error) {
+        if (error.isJoi === true)
+            return next(createError.BadRequest('Invalid Username/Password'))
+        next(error)
     }
+}
 
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-        return res.status(400).json({ error: 'Email Is Wrong' })
+const refreshToken = async (req, res, next) => {
+    try {
+        const { refreshToken } = req.body;
+        if (!refreshToken) throw createError.BadRequest();
+
+        const userId = await verifyRefreshToken(refreshToken);
+
+        const accessToken = await signAccessToken(userId);
+        const newRefreshToken = await signRefreshToken(userId);
+        res.json({ accessToken: accessToken, refreshToken: newRefreshToken });
+
+    } catch (error) {
+        next(error)
     }
-
-    const validPassword = await bcrypt.compare(req.body.password, user.password)
-    if (!validPassword) {
-        return res.status(400).json({ error: 'Password Is Wrong' })
-    }
-
-    const accessToken = generateAccessToken(user._id);
-    const refreshToken = generateRefreshToken(user._id);
-
-    res.status(200).json({
-        success: 'login success',
-        user: { id: user._id, name: user.name, email: user.email },
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-    })
 }
 
 const logoutPost = async (req, res, next) => {
     res.json({ dd: 'dddd' })
 }
 
-const refToken = async (req, res, next) => {
-    res.json({ dd: 'dddd' })
-}
 
 module.exports = {
     regsiterPost,
     loginPost,
     logoutPost,
-    refToken
+    refreshToken
 }

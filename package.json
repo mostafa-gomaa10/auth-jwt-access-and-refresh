@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon index"
+    "start": "node index",
+    "serve": "nodemon index",
+    "redis": "redis-commander"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +22,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.0",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "redis": "^4.0.6",
+    "redis-commander": "^0.7.2"
   }
 }

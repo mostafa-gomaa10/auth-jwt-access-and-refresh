@@ -4,23 +4,19 @@ require('dotenv').config({ path: './config/config.env' });
 const createError = require('http-errors')
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-// const connectDB = require('./config/db');
 require('./config/init_mongodb');
+const client = require('./config/init_redis');
+
+
 
 // Import Routes
 const authRoutes = require('./routes/auth');
 const postsRoutes = require('./routes/posts');
 
-// connectDB();
 
 // init app
 const app = express();
-// app.use(
-//     cors({
-//         credentials: true,
-//         origin: "http://localhost:3178",
-//     })
-// );
+
 
 // Logging
 if (process.env.NODE_ENV === 'development') {
@@ -37,6 +33,7 @@ app.use('/posts', postsRoutes)
 app.get('/', (req, res) => {
     res.send("djwdwehl");
 })
+
 
 
 app.use(async (req, res, next) => {
