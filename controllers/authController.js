@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const JWT = require('jsonwebtoken');
+const RefreshTokenModel = require('../models/RefreshToken');
 const bcrypt = require('bcryptjs');
 const { registerValidation, loginValidation } = require('../validation');
 const { signAccessToken, signRefreshToken, verifyRefreshToken } = require('../config/jwt_helper');
@@ -103,7 +103,20 @@ const refreshToken = async (req, res, next) => {
 }
 
 const logoutPost = async (req, res, next) => {
-    res.json({ dd: 'dddd' })
+    try {
+        const { refreshToken } = req.body
+        if (!refreshToken) throw createError.BadRequest()
+        const userId = await verifyRefreshToken(refreshToken)
+        const oldRefToken = await RefreshTokenModel.findOneAndDelete({ user: userId });
+        if (!oldRefToken) {
+            throw createError.BadRequest()
+        }
+        console.log(oldRefToken);
+        res.sendStatus(204);
+
+    } catch (error) {
+        next(error)
+    }
 }
 
 

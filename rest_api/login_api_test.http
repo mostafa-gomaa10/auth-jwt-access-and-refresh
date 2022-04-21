@@ -51,3 +51,10 @@ Content-Type: application/json
     "email":"myvalxxid@valid.com",
     "password":"123456"
 }
+###
+POST http://localhost:5000/api/auth/logout
+Content-Type: application/json
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjVkYjdiYTczYWI1NTZjYTFmNDIzM2EiLCJpYXQiOjE2NTA1Njg1NDQsImV4cCI6MTY4MjEyNjE0NCwiYXVkIjoiNjI1ZGI3YmE3M2FiNTU2Y2ExZjQyMzNhIiwiaXNzIjoibXlhcHAuY29tIn0.5BBRVvl_Rka1bWqzezpORRdzp3Du1bYAU80i781SoMA"
+}

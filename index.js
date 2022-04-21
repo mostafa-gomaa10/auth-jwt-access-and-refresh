@@ -5,13 +5,11 @@ const createError = require('http-errors')
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 require('./config/init_mongodb');
-const client = require('./config/init_redis');
-
 
 
 // Import Routes
 const authRoutes = require('./routes/auth');
-const postsRoutes = require('./routes/posts');
+const productRoutes = require('./routes/product');
 
 
 // init app
@@ -28,10 +26,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/auth', authRoutes)
-app.use('/posts', postsRoutes)
+app.use('/products', productRoutes)
 
 app.get('/', (req, res) => {
-    res.send("djwdwehl");
+    res.send("hello home");
 })
 
 

@@ -1,6 +1,5 @@
-GET http://localhost:5000/posts
+GET http://localhost:5000/products
 Authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjVmMDM1MGM2NTJiYzE1Njk2NDM4ODciLCJpYXQiOjE2NTA0ODExMTEsImV4cCI6MTY1MDQ4MTEzMX0.0Y_TnhRjD3pq39GfmQlXzaoopPQVLZy7RjhLS9Fbp3w
 
 ###
 
-GET http://localhost:5000/test
