@@ -6,6 +6,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    user: mongoose.Types.ObjectId,
     desc: {
         type: String,
         required: true

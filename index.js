@@ -10,6 +10,8 @@ require('./config/init_mongodb');
 // Import Routes
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/product');
+const { verifyAccessToken } = require('./config/jwt_helper');
+const Product = require('./models/product');
 
 
 // init app
@@ -28,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes)
 app.use('/products', productRoutes)
 
-app.get('/', (req, res) => {
+app.get('/productstwo', verifyAccessToken, (req, res) => {
     res.send("hello home");
 })
 

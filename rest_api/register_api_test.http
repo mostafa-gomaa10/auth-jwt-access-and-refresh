@@ -22,7 +22,7 @@ Content-Type: application/json
 
 {
      "name":"my name",
-    "email":"myvalid@valid.com",
+    "email":"myvalid@valid.com"
 }
 
 ###
@@ -53,7 +53,7 @@ Content-Type: application/json
 
 {
     "name":"my name",
-    "email":"myvalxxid@valid.com",
+    "email":"myvalxxid@valid2.com",
     "password":"123456"
 }
 

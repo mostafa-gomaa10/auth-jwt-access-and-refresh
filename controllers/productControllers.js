@@ -4,14 +4,13 @@ const Product = require('../models/product');
 const availableMimes = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg+xml'];
 
 // fetch all products
-const getAllProducts = (req, res) => {
+const getAllProducts = (req, res, next) => {
     Product.find()
         .then((result) => {
             res.status(200).json({ result: result })
         })
         .catch((err) => {
-            console.log(err);
-            res.json({ error: err });
+            next(err)
         })
 }
 
@@ -52,15 +51,14 @@ const addProduct = async (req, res) => {
             console.log(err);
             res.status(500).json({ 'error': 'database error connection' });
         })
-
-
 }
+
 // update product
 const updateProduct = async (req, res) => {
     console.log(req.body);
     console.log(req.files);
 
-    const { id } = req.body;
+    const { id } = req.params.id;
     const { name, qty, price, desc } = req.body;
     if (!req.files || Object.keys(req.files).length === 0) {
         await Product.findByIdAndUpdate(id, { name, qty, price, desc }, { new: true })
@@ -101,7 +99,7 @@ const updateProduct = async (req, res) => {
 }
 
 
-const getProduct = (req, res) => {
+const getProduct = (req, res, next) => {
     const id = req.params.id
     Product.findById(id)
         .then((result) => {
@@ -115,17 +113,16 @@ const getProduct = (req, res) => {
 }
 
 const deleteProduct = async (req, res) => {
-    const id = req.query.id;
+    const id = req.params.id;
     console.log(id);
-    res.json({ done: 'done' })
+
     Product.findByIdAndDelete(id)
         .then((result) => {
             // console.log(result);
             res.status(200).json({ result: result })
         })
         .catch((err) => {
-            console.log(err);
-            res.json({ error: err });
+            next(err)
         })
 }
 

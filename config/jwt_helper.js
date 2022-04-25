@@ -8,7 +8,7 @@ const signAccessToken = (userId) => {
         const payload = {}
         const secret = process.env.SECRET_TOKEN
         const options = {
-            expiresIn: '15m',
+            expiresIn: '20s',
             audience: userId
         }
         JWT.sign(payload, secret, options, (err, token) => {
