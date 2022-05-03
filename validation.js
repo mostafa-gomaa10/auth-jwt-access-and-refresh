@@ -23,10 +23,26 @@ const loginValidation = (data) => {
 
 }
 
+const productCreateValidation = (data) => {
+
+    const loginValidationSchema = JOI.object({
+        name: JOI.string().min(3).required(),
+        desc: JOI.string().min(3).required(),
+        user: JOI.string().required(),
+        price: JOI.number().required(),
+        qty: JOI.number().required(),
+    })
+
+    return loginValidationSchema.validate(data);
+
+}
+
+
 
 
 
 module.exports = {
     registerValidation,
-    loginValidation
+    loginValidation,
+    productCreateValidation
 }

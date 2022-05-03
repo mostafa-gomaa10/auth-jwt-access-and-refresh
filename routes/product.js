@@ -7,14 +7,17 @@ const {
     getAllProducts,
     getProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getAllProductsNoImage
 } = require('../controllers/productControllers');
 
 
-router.get('/all-products', getAllProducts);
-router.post('/add-product', verifyAccessToken, addProduct);
-router.post('/update-product/:id', verifyAccessToken, updateProduct);
-router.get('/delete-product/:id', verifyAccessToken, deleteProduct);
+router.get('/all', getAllProducts);
+router.get('/all-no-image', getAllProductsNoImage);
+// router.post('/add', verifyAccessToken, addProduct);
+router.post('/add', addProduct);
+router.post('/update/:id', verifyAccessToken, updateProduct);
+router.get('/delete/:id', verifyAccessToken, deleteProduct);
 router.get('/:id', getProduct);
 
 module.exports = router;
