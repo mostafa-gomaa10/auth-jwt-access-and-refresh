@@ -25,6 +25,7 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "redis": "^4.0.6",
-    "redis-commander": "^0.7.2"
+    "redis-commander": "^0.7.2",
+    "stripe": "^8.222.0"
   }
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>Checkout</button>
+
+    <script>
+        const button = document.querySelector("button")
+        button.addEventListener("click", () => {
+            fetch("/api/orders/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    user: "625db11946abad8efaec28a8",
+                    address: "123 street",
+                    phone: "12345678910",
+                    cart: [{ "id": "6271f5a7ec9440b8cfbd9c64", "quantity": 4 }],
+                }),
+            })
+                .then(res => {
+                    if (res.ok) return res.json()
+                    return res.json().then(json => Promise.reject(json))
+                })
+                .then(({ url }) => {
+                    window.location = url
+                })
+                .catch(e => {
+                    console.error(e.error)
+                })
+        })
+    </script>
+</body>
+
+</html>

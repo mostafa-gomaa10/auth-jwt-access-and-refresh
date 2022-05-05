@@ -1,0 +1,13 @@
+GET http://localhost:5000/api/orders
+###
+GET http://localhost:5000/
+###
+POST http://localhost:5000/api/orders/create
+Content-Type: application/json
+
+{
+    "userId":"625db11946abad8efaec28a8",
+    "address":"123 street",
+    "phone":"12345678910",
+    "cart":[{"id":"6271f5a7ec9440b8cfbd9c64", "quantity":4}]
+}
